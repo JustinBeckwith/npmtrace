@@ -1,0 +1,7 @@
+language: nodejs
+node_js:
+  - 11
+# deploy:
+#   provider: gae
+#   keyfile: "YOUR SERVICE ACCOUNT JSON FILE"
+#   project: npmtrace
