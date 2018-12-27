@@ -1,0 +1,33 @@
+body {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  margin-top: 120px;
+  color: #666;
+}
+
+header {
+  font-size: 75px;
+  font-weight: bold;
+}
+
+button {
+  background-color: #DDD;
+  font-size: 15px;
+  padding: 10px;
+  color: #666;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+input[type=search] {
+  font-size: 30px;
+  border: 1px solid #666;
+  color: #666;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+div {
+  padding: 15px;
+}
