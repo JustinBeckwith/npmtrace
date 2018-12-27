@@ -6,8 +6,11 @@ const path = require('path');
 const fs = require('fs');
 const {promisify} = require('util');
 const fetch = require('node-fetch');
+const {Storage} = require('@google-cloud/storage');
 
 const readFile = promisify(fs.readFile);
+const storage = new Storage();
+const bucket = storage.bucket('npmtrace');
 
 /**
  * Produce a load trace for a given npm package and version.
@@ -32,14 +35,16 @@ async function getLatest(package) {
     throw new Error('Package is required.');
   }
   const url = `http://registry.npmjs.org/-/package/${package}/dist-tags`;
-  console.log(url);
   const packageRes = await fetch(url);
   const packageData = await packageRes.json();
-  console.log(packageData);
   const latest = packageData.latest;
   return latest;
 }
 
+/**
+ * Parse a path and return the package name and version
+ * @param {string} path The path portion of the url to parse
+ */
 function extractFromRoute(path) {
   const parts = path.split('/').filter(x => x.length).slice(1);
   console.log(parts);
@@ -74,6 +79,35 @@ function extractFromRoute(path) {
   return {name, version};
 }
 
+/**
+ * Obtain trace data from GCS if available
+ * @param {string} name
+ * @param {string} version
+ * @returns {string} The data from the cache or undefined
+ */
+async function getDataFromCache(name, version) {
+  const url = `${process.version}/${name}/${version}/data.json`;
+  const file = bucket.file(url);
+  const [exists] = await file.exists();
+  if (!exists) {
+    return;
+  }
+  const contents = await file.download();
+  return contents.toString();
+}
+
+/**
+ * Cache a given set of trace data in cloud storage
+ * @param {string} name npm package name
+ * @param {string} version npm package version
+ * @param {object} data The trace data to save
+ */
+async function cacheData(name, version, data) {
+  const url = `${process.version}/${name}/${version}/data.json`;
+  const file = bucket.file(url);
+  await file.save(JSON.stringify(data));
+}
+
 const app = express();
 app.use(express.static('public'))
 
@@ -90,7 +124,11 @@ app.get('/packages/*', async (req, res) => {
 app.get('/api/packages/*', async (req, res) => {
   const path = req.path.slice(4);
   const {name, version} = extractFromRoute(path);
-  const data = await trace(name, version);
+  let data = await getDataFromCache(name, version);
+  if (!data) {
+    data = await trace(name, version);
+    await cacheData(name, version, data);
+  }
   res.json(data);
 });
 

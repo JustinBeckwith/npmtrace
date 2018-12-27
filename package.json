@@ -11,6 +11,7 @@
     "test": "mocha test.js"
   },
   "dependencies": {
+    "@google-cloud/storage": "^2.3.4",
     "execa": "^1.0.0",
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
