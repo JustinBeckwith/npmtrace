@@ -7,6 +7,9 @@
   ],
   "author": "Justin Beckwith <justin.beckwith@gmail.com",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha test.js"
+  },
   "dependencies": {
     "execa": "^1.0.0",
     "express": "^4.16.4",
@@ -14,5 +17,8 @@
     "require-so-slow": "^1.2.0",
     "semver": "^5.6.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
   }
 }
