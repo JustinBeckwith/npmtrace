@@ -5,7 +5,8 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 const {promisify} = require('util');
-const fetch = require('node-fetch');
+const {request} = require('gaxios');
+const yes = require('yes-https');
 const {Storage} = require('@google-cloud/storage');
 
 const readFile = promisify(fs.readFile);
@@ -35,9 +36,8 @@ async function getLatest(package) {
     throw new Error('Package is required.');
   }
   const url = `http://registry.npmjs.org/-/package/${package}/dist-tags`;
-  const packageRes = await fetch(url);
-  const packageData = await packageRes.json();
-  const latest = packageData.latest;
+  const packageRes = await request({url});
+  const latest = packageRes.data.latest;
   return latest;
 }
 
@@ -109,7 +109,8 @@ async function cacheData(name, version, data) {
 }
 
 const app = express();
-app.use(express.static('public'))
+app.use(express.static('public'));
+app.use(yes());
 
 app.get('/packages/*', async (req, res) => {
   const {name, version} = extractFromRoute(req.path);
