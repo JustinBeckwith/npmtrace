@@ -1,0 +1,26 @@
+<html>
+<body>
+<link rel="import" href="/trace_viewer_full.html">
+<script>
+  const container = document.createElement('track-view-container');
+  container.id = 'track_view_container';
+  viewer = document.createElement('tr-ui-timeline-view');
+  viewer.track_view_container = container;
+  Polymer.dom(viewer).appendChild(container);
+  viewer.id = 'trace-viewer';
+  viewer.globalMode = true;
+  Polymer.dom(document.body).appendChild(viewer);
+  const model = new tr.Model();
+  async function getTrace() {
+    const url = `/api${window.location.pathname}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data);
+    const i = new tr.importer.Import(model);
+    await i.importTracesWithProgressDialog([data]);
+    viewer.model = model;
+  }
+  getTrace().catch(console.error);
+</script>
+</body>
+</html>
