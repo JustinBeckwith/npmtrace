@@ -1,0 +1,38 @@
+html, body {
+  margin: 0px;
+}
+
+header {
+  background-color: #FEFEFE;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 30px;
+  align-items: center;
+  font-weight: bold;
+}
+
+header input[type=search] {
+  font-size: 20px;
+  border: 1px solid #CCC;
+  color: #666;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  width: 400px;
+  text-align: right;
+}
+
+header a {
+  color: #666;
+  text-decoration: none;
+}
+
+form {
+  margin: 0px;
+}
+
+::placeholder {
+  color: #666;
+  opacity: 0.5;
+}

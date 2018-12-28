@@ -1,6 +1,14 @@
 <html>
-<body>
+<head>
 <link rel="import" href="/trace_viewer_full.html">
+<link rel="stylesheet" href="/package.css">
+</head>
+<body>
+<header>
+  <span><a href="/">npm.trace</a></span>
+  <form id="form"><input type="search" id="search" autofocus></form>
+</header>
+<div id="main"></div>
 <script>
   const container = document.createElement('track-view-container');
   container.id = 'track_view_container';
@@ -9,18 +17,27 @@
   Polymer.dom(viewer).appendChild(container);
   viewer.id = 'trace-viewer';
   viewer.globalMode = true;
-  Polymer.dom(document.body).appendChild(viewer);
+  Polymer.dom(document.getElementById('main')).appendChild(viewer);
   const model = new tr.Model();
   async function getTrace() {
     const url = `/api${window.location.pathname}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
     const i = new tr.importer.Import(model);
     await i.importTracesWithProgressDialog([data]);
     viewer.model = model;
   }
   getTrace().catch(console.error);
+  const form = document.getElementById('form');
+  const search = document.getElementById('search');
+  form.onsubmit = e => {
+    if (search.value !== '') {
+      window.location.href = `${window.location.origin}/packages/${search.value}`;
+    }
+    e.preventDefault();
+  };
+  const packageName = window.location.pathname.split('/').filter(x => !!x).slice(1, -1).join('/');
+  search.placeholder = packageName;
 </script>
 </body>
 </html>
