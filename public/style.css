@@ -10,6 +10,10 @@ header {
   font-weight: bold;
 }
 
+footer {
+  padding-top: 100px;
+}
+
 button {
   background-color: #DDD;
   font-size: 15px;
@@ -30,4 +34,9 @@ input[type=search] {
 
 div {
   padding: 15px;
+}
+
+::placeholder {
+  color: #666;
+  opacity: 0.25;
 }
