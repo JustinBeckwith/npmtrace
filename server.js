@@ -7,6 +7,7 @@ const fs = require('fs');
 const {promisify} = require('util');
 const {request} = require('gaxios');
 const yes = require('yes-https');
+const semver = require('semver');
 const {Storage} = require('@google-cloud/storage');
 
 const readFile = promisify(fs.readFile);
@@ -47,7 +48,6 @@ async function getLatest(package) {
  */
 function extractFromRoute(path) {
   const parts = path.split('/').filter(x => x.length).slice(1);
-  console.log(parts);
   let name;
   let version;
   if (parts[0].startsWith('@')) {
@@ -75,7 +75,6 @@ function extractFromRoute(path) {
         throw new Error(`Malformed url: ${path}`);
     }
   }
-  console.log({name, version});
   return {name, version};
 }
 
@@ -86,7 +85,8 @@ function extractFromRoute(path) {
  * @returns {string} The data from the cache or undefined
  */
 async function getDataFromCache(name, version) {
-  const url = `${process.version}/${name}/${version}/data.json`;
+  const majorVersion = semver.major(process.version);
+  const url = `${majorVersion}/${name}/${version}/data.json`;
   const file = bucket.file(url);
   const [exists] = await file.exists();
   if (!exists) {
@@ -103,7 +103,8 @@ async function getDataFromCache(name, version) {
  * @param {object} data The trace data to save
  */
 async function cacheData(name, version, data) {
-  const url = `${process.version}/${name}/${version}/data.json`;
+  const majorVersion = semver.major(process.version);
+  const url = `${majorVersion}/${name}/${version}/data.json`;
   const file = bucket.file(url);
   await file.save(JSON.stringify(data));
 }
