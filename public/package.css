@@ -1,5 +1,6 @@
 html, body {
   margin: 0px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 header {
@@ -109,4 +110,23 @@ form {
   text-align: center;
   font-family: 'Courier New', Courier, monospace;
   color: #333;
+}
+
+#problem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: #DDD;
+}
+
+#problem #frowny {
+  font-size: 140px;
+  font-weight: bold;
+  color: #666;
+  margin-top: 100px;
+  margin-bottom: 50px;
 }

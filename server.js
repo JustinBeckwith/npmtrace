@@ -116,9 +116,13 @@ app.use(yes());
 app.get('/packages/*', async (req, res) => {
   const {name, version} = extractFromRoute(req.path);
   if (!version) {
-    const latest = await getLatest(name);
-    const newUrl = `/packages/${name}/${latest}`;
-    return res.redirect(newUrl);
+    try {
+      const latest = await getLatest(name);
+      const newUrl = `/packages/${name}/${latest}`;
+      return res.redirect(newUrl);
+    } catch (e) {
+      // ignore errors and let the /api route take care of it
+    }
   }
   res.sendFile(path.join(__dirname, 'public/trace.html'));
 });
@@ -128,8 +132,13 @@ app.get('/api/packages/*', async (req, res) => {
   const {name, version} = extractFromRoute(path);
   let data = await getDataFromCache(name, version);
   if (!data) {
-    data = await trace(name, version);
-    await cacheData(name, version, data);
+    try {
+      data = await trace(name, version);
+      await cacheData(name, version, data);
+    } catch (e) {
+      res.send(500).end();
+      return;
+    }
   }
   res.json(data);
 });
