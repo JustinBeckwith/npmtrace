@@ -1,13 +1,11 @@
-const express = require('express');
 const execa = require('execa');
 const uuid = require('uuid');
 const os = require('os');
-const path = require('path');
+const {request} = require('gaxios');
 const fs = require('fs');
 const {promisify} = require('util');
-const {request} = require('gaxios');
-const yes = require('yes-https');
 const semver = require('semver');
+const path = require('path');
 const {Storage} = require('@google-cloud/storage');
 
 const readFile = promisify(fs.readFile);
@@ -112,38 +110,10 @@ async function cacheData(name, version, data) {
   await file.save(JSON.stringify(data));
 }
 
-const app = express();
-app.use(express.static('public'));
-app.use(yes());
-
-app.get('/packages/*', async (req, res) => {
-  const {name, version} = extractFromRoute(req.path);
-  if (!version) {
-    try {
-      const latest = await getLatest(name);
-      const newUrl = `/packages/${name}/${latest}`;
-      return res.redirect(newUrl);
-    } catch (e) {
-      // ignore errors and let the /api route take care of it
-    }
-  }
-  res.sendFile(path.join(__dirname, 'public/trace.html'));
-});
-
-app.get('/api/packages/*', async (req, res) => {
-  const path = req.path.slice(4);
-  const {name, version} = extractFromRoute(path);
-  let data = await getDataFromCache(name, version);
-  if (!data) {
-    try {
-      data = await trace(name, version);
-      await cacheData(name, version, data);
-    } catch (e) {
-      res.sendStatus(500).end();
-      return;
-    }
-  }
-  res.json(data);
-});
-
-app.listen(8080, () => console.log('Server started.'));
+module.exports = {
+  extractFromRoute,
+  getLatest,
+  getDataFromCache,
+  trace,
+  cacheData
+}
