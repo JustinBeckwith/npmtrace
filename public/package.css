@@ -36,3 +36,77 @@ form {
   color: #666;
   opacity: 0.5;
 }
+
+#spinframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #DDD;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 140px;
+  height: 140px;
+  position: relative;
+  margin: 100px auto;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #333;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+#super {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.fadeout {
+  transition: opacity 1s ease-out;
+  opacity: 0;
+}
+
+#message {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #333;
+}
