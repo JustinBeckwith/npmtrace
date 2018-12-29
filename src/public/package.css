@@ -25,6 +25,24 @@ header input[type=search] {
   text-transform: lowercase;
 }
 
+@media only screen and (max-width: 800px) {
+  header {
+    flex-direction: column;
+  }
+  header form {
+    width: 100%;
+  }
+  header input[type=search] {
+    width: 100%;
+    text-align: center;
+  }
+  header span {
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+  }
+}
+
 header a {
   color: #666;
   text-decoration: none;
