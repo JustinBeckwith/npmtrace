@@ -22,6 +22,7 @@ header input[type=search] {
   font-family: 'Courier New', Courier, monospace;
   width: 400px;
   text-align: right;
+  text-transform: lowercase;
 }
 
 header a {
@@ -35,7 +36,7 @@ form {
 
 ::placeholder {
   color: #666;
-  opacity: 0.5;
+  opacity: 0.25;
 }
 
 #spinframe {

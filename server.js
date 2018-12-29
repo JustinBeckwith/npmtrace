@@ -75,6 +75,9 @@ function extractFromRoute(path) {
         throw new Error(`Malformed url: ${path}`);
     }
   }
+  if (name) {
+    name = name.toLowerCase();
+  }
   return {name, version};
 }
 
@@ -136,7 +139,7 @@ app.get('/api/packages/*', async (req, res) => {
       data = await trace(name, version);
       await cacheData(name, version, data);
     } catch (e) {
-      res.send(500).end();
+      res.sendStatus(500).end();
       return;
     }
   }
