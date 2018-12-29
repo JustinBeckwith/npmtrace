@@ -17,6 +17,14 @@ submit.onclick = e => {
 
 function trace() {
   if (search.value != '') {
-    window.location.href = `packages/${search.value}`;
+    let route = search.value;
+    if (route.indexOf('@') > 0) {
+      if (route[0] === '@') {
+        route = '@' + route.slice(1).split('@').join('/');
+      } else {
+        route = route.split('@').join('/');
+      }
+    }
+    window.location.href = `packages/${route}`;
   }
 }
