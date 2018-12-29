@@ -34,6 +34,12 @@ input[type=search] {
   text-transform: lowercase;
 }
 
+@media only screen and (max-width: 500px) {
+  input[type=search] {
+    width: 100%;
+  }
+}
+
 div {
   padding: 15px;
 }
