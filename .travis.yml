@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-- 10
-deploy:
-  provider: gae
-  keyfile: key.json
-  project: npmtrace
-before_install:
-- openssl aes-256-cbc -K $encrypted_a2c475013ad9_key -iv $encrypted_a2c475013ad9_iv -in key.json.enc -out key.json -d
