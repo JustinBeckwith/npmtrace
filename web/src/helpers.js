@@ -1,29 +1,9 @@
-const execa = require('execa');
-const uuid = require('uuid');
-const os = require('os');
 const {request} = require('gaxios');
-const fs = require('fs');
-const {promisify} = require('util');
 const semver = require('semver');
-const path = require('path');
 const {Storage} = require('@google-cloud/storage');
 
-const readFile = promisify(fs.readFile);
 const storage = new Storage();
 const bucket = storage.bucket('npmtrace');
-
-/**
- * Produce a load trace for a given npm package and version.
- * @param {string} package Name of the npm package
- * @param {string} version Semver version to trace
- * @returns JSON trace data
- */
-async function trace(package, version) {
-  const tracePath = path.join(os.tmpdir(), uuid.v4());
-  await execa('npx', ['require-so-slow', '-o', tracePath, `${package}@${version}`], {stdio: 'inherit'});
-  const contents = await readFile(tracePath, 'utf8');
-  return JSON.parse(contents);
-}
 
 /**
  * Get the latest tag for a given npm module
@@ -114,6 +94,5 @@ module.exports = {
   extractFromRoute,
   getLatest,
   getDataFromCache,
-  trace,
   cacheData
 }

@@ -1,0 +1,7 @@
+steps:
+- name: 'node:10'
+  args: ['npm', 'install']
+- name: 'node:10'
+  args: ['npm', 'test']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy']

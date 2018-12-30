@@ -37,12 +37,39 @@ async function getTrace() {
   const url = `/api${window.location.pathname}`;
   const res = await fetch(url);
   if (res.status !== 200) {
-    main.style.display = 'none';
-    spinny.style.display = 'none';
-    problem.style.display = 'block';
-    return;
+    return showError();
   }
   const data = await res.json();
+  if (data.type === 'job') {
+    pollJob(data.id);
+  } else {
+    showTrace(data);
+  }
+}
+
+async function pollJob(id) {
+  const res = await fetch(`/api/job/${id}`);
+  const job = await res.json();
+  console.log(job);
+  switch (job.status) {
+    case 'COMPLETE':
+      showTrace(job.payload);
+      break;
+    case 'ERROR':
+      console.error(job.payload);
+      showError();
+      break;
+    case 'RUNNING':
+      setTimeout(async () => {
+        await pollJob(id);
+      }, 1000);
+      break;
+  }
+}
+
+getTrace().catch(console.error);
+
+async function showTrace(data) {
   const i = new tr.importer.Import(model);
   await i.importTracesWithProgressDialog([data]);
   viewer.model = model;
@@ -52,7 +79,12 @@ async function getTrace() {
     spinny.style.display = 'none';
   }, 1000);
 }
-getTrace().catch(console.error);
+
+function showError() {
+  main.style.display = 'none';
+  spinny.style.display = 'none';
+  problem.style.display = 'block';
+}
 
 form.onsubmit = e => {
   if (search.value !== '') {

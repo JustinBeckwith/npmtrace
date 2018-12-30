@@ -1,0 +1,13 @@
+{
+  "name": "npmtrace",
+  "private": true,
+  "description": "A simple utility for viewing npm load traces.",
+  "keywords": [
+    "trace"
+  ],
+  "author": "Justin Beckwith <justin.beckwith@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "start": "cd web && npm start & cd worker && npm start & cd .."
+  }
+}
