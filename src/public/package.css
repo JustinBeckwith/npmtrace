@@ -1,6 +1,11 @@
 html, body {
   margin: 0px;
   font-family: 'Courier New', Courier, monospace;
+  height: 100%;
+}
+
+body {
+  flex-direction: column;
 }
 
 header {
@@ -64,7 +69,6 @@ form {
   background-color: #DDD;
   top: 0;
   left: 0;
-  z-index: 1000;
 }
 
 .spinner {
@@ -118,6 +122,7 @@ form {
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
 }
 
 .fadeout {
