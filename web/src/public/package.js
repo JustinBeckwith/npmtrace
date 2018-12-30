@@ -62,7 +62,7 @@ async function pollJob(id) {
     case 'RUNNING':
       setTimeout(async () => {
         await pollJob(id);
-      }, 1000);
+      }, 2500);
       break;
   }
 }

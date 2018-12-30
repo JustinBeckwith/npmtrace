@@ -5,17 +5,12 @@ const execa = require('execa');
 const uuid = require('uuid');
 const fs = require('fs');
 const {promisify} = require('util');
-const Redis = require("redis");
+const Firestore = require('@google-cloud/firestore');
 
 const readFile = promisify(fs.readFile);
 
-// Set up redis
-const redisHost = process.env.REDIS_HOST || 'redis://0.0.0.0:6379';
-const redis = Redis.createClient(redisHost);
-redis.on('error', console.error);
-const expiration = 24*60*60;
-const rget = promisify(redis.get).bind(redis);
-const rsetex = promisify(redis.setex).bind(redis);
+const db = new Firestore();
+const jobs = db.collection('jobs');
 
 // configure express
 const app = express();
@@ -32,7 +27,7 @@ app.post('/trace', async (req, res) => {
       // RUNNING | COMPLETE | ERROR
       status: 'RUNNING'
     };
-    await rsetex(job.id, expiration, JSON.stringify(job));
+    await jobs.doc(job.id).set(job)
 
     // this will run after the requests is complete
     trace(job.id, name, version);
@@ -47,7 +42,8 @@ app.post('/trace', async (req, res) => {
 app.get('/jobs/:id', async (req, res) => {
   const id = req.params.id;
   console.log(`Getting Job Id ${id}`);
-  const job = JSON.parse(await rget(id));
+  const doc = await jobs.doc(id).get();
+  const job = doc.data();
   res.json(job);
 });
 
@@ -63,8 +59,8 @@ app.listen(port, () => console.log(`Worker service started on ${port}`));
  */
 async function trace(id, package, version) {
   console.log(`fetching job ${id}`);
-  const v = await rget(id);
-  const job = JSON.parse(v);
+  const doc = await jobs.doc(id).get();
+  const job = doc.data();
   console.log(job);
   try {
     const tracePath = path.join(os.tmpdir(), uuid.v4());
@@ -79,5 +75,5 @@ async function trace(id, package, version) {
     job.payload = e.toString()
     job.status = 'ERROR';
   }
-  await rsetex(id, expiration, JSON.stringify(job));
+  await jobs.doc(id).set(job);
 }

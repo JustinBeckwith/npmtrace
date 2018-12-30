@@ -1,5 +1,3 @@
 runtime: nodejs10
 service: worker
 instance_class: F4_1G
-env_variables:
-  REDIS_HOST: 'redis://10.0.0.4:6379'
