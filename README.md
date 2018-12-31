@@ -3,6 +3,8 @@
 
 [npm.trace](https://npmtrace.appspot.com) is a tool that makes it easy to understand the impact your npm dependencies have on the load time of your application.
 
+![npm.trace](https://user-images.githubusercontent.com/534619/50564748-8e39c580-0cdc-11e9-93c5-4ee23bd26f94.png)
+
 ## How it's made
 This uses [require-so-slow](https://github.com/ofrobots/require-so-slow) to do the profiling.  The app is run on [Google App Engine](https://cloud.google.com/appengine/), and uses [Cloud Firestore](https://cloud.google.com/firestore/) and [Cloud Storage](https://cloud.google.com/storage/) under the hood.
 
