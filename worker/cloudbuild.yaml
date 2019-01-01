@@ -8,3 +8,6 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['functions', 'deploy', 'trace']
   dir: worker
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['functions', 'deploy', 'traceAll']
+  dir: worker

@@ -16,6 +16,7 @@
     "execa": "^1.0.0",
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
+    "p-queue": "^3.0.0",
     "require-so-slow": "^1.2.0",
     "uuid": "^3.3.2"
   },
