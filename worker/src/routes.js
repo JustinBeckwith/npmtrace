@@ -6,19 +6,33 @@ const fs = require('fs');
 const {promisify} = require('util');
 const Queue = require('p-queue');
 const fetch = require('node-fetch');
+const Firestore = require('@google-cloud/firestore');
+const semver = require('semver');
 
 const readFile = promisify(fs.readFile);
 const workerHost = process.env.WORKER_HOST || 'http://localhost:8081';
 
+const db = new Firestore();
+const traceCache = db.collection('traces');
+
 exports.trace = async (req, res) => {
   try {
     const {name, version} = req.body;
-    console.log(`tracing ${name}@${version}`);
-    const tracePath = path.join(os.tmpdir(), uuid.v4());
-    await execa('npx', ['require-so-slow', '-o', tracePath, `${name}@${version}`], {stdio: 'inherit'});
-    const contents = await readFile(tracePath, 'utf8');
-    const payload = JSON.parse(contents);
-    res.json(payload);
+    console.log(`Getting tracing for ${name}@${version}`);
+    let data = await getDataFromCache(name, version);
+    if (!data) {
+      console.log('Cache miss!');
+      const tracePath = path.join(os.tmpdir(), uuid.v4());
+      await execa('npx', ['require-so-slow', '-o', tracePath, `${name}@${version}`], {stdio: 'inherit'});
+      const contents = await readFile(tracePath, 'utf8');
+      data = {
+        data: JSON.parse(contents)
+      };
+      await cacheData(name, version, data);
+    } else {
+      console.log('Cache hit!');
+    }
+    res.json(data);
   } catch (e) {
     console.error(e);
     res.sendStatus(500).end();
@@ -56,4 +70,20 @@ exports.traceAll = async (req, res) => {
     console.error(e);
     res.sendStatus(500).end();
   }
+}
+
+async function getDataFromCache(name, version) {
+  const majorVersion = semver.major(process.version);
+  const url = `${majorVersion}/${encodeURIComponent(name)}/${version}`;
+  const doc = await traceCache.doc(url).get();
+  if (!doc.exists) {
+    return;
+  }
+  return doc.data();
+}
+
+async function cacheData(name, version, data) {
+  const majorVersion = semver.major(process.version);
+  const url = `${majorVersion}/${encodeURIComponent(name)}/${version}`;
+  await traceCache.doc(url).set(data);
 }

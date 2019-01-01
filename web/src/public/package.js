@@ -39,32 +39,9 @@ async function getTrace() {
   if (res.status !== 200) {
     return showError();
   }
-  const data = await res.json();
-  if (data.type === 'job') {
-    pollJob(data.id);
-  } else {
-    showTrace(data);
-  }
-}
-
-async function pollJob(id) {
-  const res = await fetch(`/api/job/${id}`);
-  const job = await res.json();
-  console.log(job);
-  switch (job.status) {
-    case 'COMPLETE':
-      showTrace(job.payload);
-      break;
-    case 'ERROR':
-      console.error(job.payload);
-      showError();
-      break;
-    case 'RUNNING':
-      setTimeout(async () => {
-        await pollJob(id);
-      }, 2500);
-      break;
-  }
+  const {data} = await res.json();
+  console.log(data);
+  showTrace(data);
 }
 
 getTrace().catch(console.error);

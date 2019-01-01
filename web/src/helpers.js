@@ -1,9 +1,5 @@
 const {request} = require('gaxios');
 const semver = require('semver');
-const {Storage} = require('@google-cloud/storage');
-
-const storage = new Storage();
-const bucket = storage.bucket('npmtrace');
 
 /**
  * Get the latest tag for a given npm module
@@ -59,40 +55,7 @@ function extractFromRoute(path) {
   return {name, version};
 }
 
-/**
- * Obtain trace data from GCS if available
- * @param {string} name
- * @param {string} version
- * @returns {string} The data from the cache or undefined
- */
-async function getDataFromCache(name, version) {
-  const majorVersion = semver.major(process.version);
-  const url = `${majorVersion}/${name}/${version}/data.json`;
-  const file = bucket.file(url);
-  const [exists] = await file.exists();
-  if (!exists) {
-    return;
-  }
-  const contents = await file.download();
-  return contents.toString();
-}
-
-/**
- * Cache a given set of trace data in cloud storage
- * @param {string} name npm package name
- * @param {string} version npm package version
- * @param {object} data The trace data to save
- */
-async function cacheData(name, version, data) {
-  const majorVersion = semver.major(process.version);
-  const url = `${majorVersion}/${name}/${version}/data.json`;
-  const file = bucket.file(url);
-  await file.save(JSON.stringify(data));
-}
-
 module.exports = {
   extractFromRoute,
-  getLatest,
-  getDataFromCache,
-  cacheData
+  getLatest
 }

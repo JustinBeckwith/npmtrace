@@ -28,16 +28,12 @@ app.get('/api/packages/*', async (req, res) => {
   try {
     const path = req.path.slice(4);
     const {name, version} = util.extractFromRoute(path);
-    let data = await util.getDataFromCache(name, version);
-    if (!data) {
-      console.log('cache miss, hitting cloud function');
-      const r = await request({
-        url: `${workerHost}/trace`,
-        method: 'POST',
-        data: {name, version}
-      });
-      data = r.data;
-    }
+    const traceRes = await request({
+      url: `${workerHost}/trace`,
+      method: 'POST',
+      data: {name, version}
+    });
+    const data = traceRes.data;
     res.json(data);
   } catch (e) {
     console.error(e);
