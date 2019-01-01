@@ -30,35 +30,13 @@ app.get('/api/packages/*', async (req, res) => {
     const {name, version} = util.extractFromRoute(path);
     let data = await util.getDataFromCache(name, version);
     if (!data) {
-      console.log('cache miss');
+      console.log('cache miss, hitting cloud function');
       const r = await request({
         url: `${workerHost}/trace`,
         method: 'POST',
         data: {name, version}
       });
-      console.log(`Job queued: ${r.data.id}`);
-      data = {
-        type: 'job',
-        id: r.data.id
-      };
-    }
-    res.json(data);
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(500).end();
-  }
-});
-
-app.get('/api/job/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    console.log(`Fetching job ${id}`);
-    const r = await request({
-      url: `${workerHost}/jobs/${id}`
-    });
-    const data = r.data;
-    if (data.status === 'COMPLETE') {
-      await util.cacheData(data.name, data.version, data.payload);
+      data = r.data;
     }
     res.json(data);
   } catch (e) {

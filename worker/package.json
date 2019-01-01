@@ -1,6 +1,7 @@
 {
   "name": "npmtrace-worker",
   "description": "Worker process for npm trace.",
+  "main": "src/routes.js",
   "scripts": {
     "start": "node src/server.js",
     "test": "mocha"

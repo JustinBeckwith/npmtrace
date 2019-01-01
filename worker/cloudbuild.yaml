@@ -6,5 +6,5 @@ steps:
   args: ['npm', 'test']
   dir: worker
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy']
+  args: ['functions', 'deploy', 'trace']
   dir: worker

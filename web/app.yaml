@@ -1,4 +1,3 @@
 runtime: nodejs10
-instance_class: F4_1G
 env_variables:
-  WORKER_HOST: 'https://worker-dot-npmtrace.appspot.com'
+  WORKER_HOST: 'https://us-central1-npmtrace.cloudfunctions.net'
