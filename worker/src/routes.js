@@ -66,11 +66,10 @@ exports.traceAll = async (req, res) => {
         }
       });
     });
-    const traces = await Promise.all(proms);
-    const result = {
-      name,
-      traces: traces.filter(x => !!x)
-    };
+    let traces = await Promise.all(proms);
+    traces = traces.filter(x => !!x);
+    traces.sort((v1, v2) => semver.compare(v1.version, v2.version));
+    const result = { name, traces };
     res.json(result);
   } catch (e) {
     console.error(e);
