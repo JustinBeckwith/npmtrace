@@ -24,6 +24,32 @@ app.get('/packages/*', async (req, res) => {
   res.sendFile(path.join(__dirname, 'public/trace.html'));
 });
 
+app.get('/api/trend/*', async (req, res) => {
+  try {
+    const path = req.path.slice(4);
+    const {name} = util.extractFromRoute(path);
+    console.log(`Performing trending analysis for ${name}`);
+    const traceRes = await request({
+      url: `${workerHost}/traceAll`,
+      method: 'POST',
+      data: {name}
+    });
+    let {traces} = traceRes.data;
+    traces = traces.map(versionResult => {
+      const dur = versionResult.tracePoints[versionResult.tracePoints.length-1].dur;
+      console.log(`Version: ${versionResult.version}, Duration: ${dur}`);
+      return {
+        version: versionResult.version,
+        duration: dur
+      };
+    });
+    res.json({ name, traces });
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
+});
+
 app.get('/api/packages/*', async (req, res) => {
   try {
     const path = req.path.slice(4);

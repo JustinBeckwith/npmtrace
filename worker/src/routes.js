@@ -47,7 +47,7 @@ exports.traceAll = async (req, res) => {
     const package = await npmRes.json();
     const versions = Object.keys(package.versions);
     console.log(versions);
-    const q = new Queue({concurrency: 1});
+    const q = new Queue({concurrency: 50});
     const proms = versions.map(version => {
       return q.add(async () => {
         try {
@@ -56,15 +56,21 @@ exports.traceAll = async (req, res) => {
             body: JSON.stringify({name, version}),
             headers: { 'Content-Type': 'application/json' }
           });
-          const data = await traceRes.json();
-          return data;
+          const {data} = await traceRes.json();
+          return {
+            version,
+            tracePoints: data
+          };
         } catch (e) {
           return null;
         }
       });
     });
-    let result = await Promise.all(proms);
-    result = result.filter(x => !!x);
+    const traces = await Promise.all(proms);
+    const result = {
+      name,
+      traces: traces.filter(x => !!x)
+    };
     res.json(result);
   } catch (e) {
     console.error(e);
