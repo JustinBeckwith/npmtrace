@@ -39,9 +39,12 @@ async function getTrace() {
   if (res.status !== 200) {
     return showError();
   }
-  const {data} = await res.json();
-  console.log(data);
-  showTrace(data);
+  const traceData = await res.json();
+  if (traceData.error || traceData.data.length === 0) {
+    showError();
+    return;
+  }
+  showTrace(traceData.data);
 }
 
 getTrace().catch(console.error);

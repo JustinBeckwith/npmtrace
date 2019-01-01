@@ -23,17 +23,25 @@ exports.trace = async (req, res) => {
     if (!data) {
       console.log('Cache miss!');
       const tracePath = path.join(os.tmpdir(), uuid.v4());
-      await execa('npx', ['require-so-slow', '-o', tracePath, `${name}@${version}`], {stdio: 'inherit'});
-      const contents = await readFile(tracePath, 'utf8');
-      data = {
-        data: JSON.parse(contents)
-      };
+      try {
+        await execa('npx', ['require-so-slow', '-o', tracePath, `${name}@${version}`], {stdio: 'inherit'});
+        const contents = await readFile(tracePath, 'utf8');
+        data = {
+          data: JSON.parse(contents)
+        };
+      } catch(e) {
+        data = {
+          error: e.toString(),
+          data: []
+        }
+      }
       await cacheData(name, version, data);
     } else {
       console.log('Cache hit!');
     }
     res.json(data);
   } catch (e) {
+    console.error(`Cache error!`);
     console.error(e);
     res.sendStatus(500).end();
   }
@@ -56,10 +64,13 @@ exports.traceAll = async (req, res) => {
             body: JSON.stringify({name, version}),
             headers: { 'Content-Type': 'application/json' }
           });
-          const {data} = await traceRes.json();
+          const traceData = await traceRes.json();
+          if (traceData.error || traceData.data.length === 0) {
+            return null;
+          }
           return {
             version,
-            tracePoints: data
+            tracePoints: traceData.data
           };
         } catch (e) {
           return null;

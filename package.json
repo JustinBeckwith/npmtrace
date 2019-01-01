@@ -8,6 +8,7 @@
   "author": "Justin Beckwith <justin.beckwith@gmail.com",
   "license": "MIT",
   "scripts": {
-    "start": "cd web && npm start & cd worker && npm start & cd .."
+    "start": "cd web && npm start & cd worker && npm start & cd ..",
+    "uncache": "firebase firestore:delete --project npmtrace /traces --recursive"
   }
 }
