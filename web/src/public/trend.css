@@ -1,0 +1,156 @@
+html, body {
+  margin: 0px;
+  font-family: 'Courier New', Courier, monospace;
+  height: 100%;
+}
+
+body {
+  flex-direction: column;
+}
+
+header {
+  background-color: #FEFEFE;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 30px;
+  align-items: center;
+  font-weight: bold;
+}
+
+header input[type=search] {
+  font-size: 20px;
+  border: 1px solid #CCC;
+  color: #666;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  width: 400px;
+  text-align: right;
+  text-transform: lowercase;
+}
+
+@media only screen and (max-width: 800px) {
+  header {
+    flex-direction: column;
+  }
+  header form {
+    width: 100%;
+  }
+  header input[type=search] {
+    width: 100%;
+    text-align: center;
+  }
+  header span {
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+header a {
+  color: #666;
+  text-decoration: none;
+}
+
+form {
+  margin: 0px;
+}
+
+::placeholder {
+  color: #666;
+  opacity: 0.25;
+}
+
+#spinframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #DDD;
+  top: 0;
+  left: 0;
+}
+
+.spinner {
+  width: 140px;
+  height: 140px;
+  position: relative;
+  margin: 100px auto;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #333;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+#super {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fadeout {
+  transition: opacity 1s ease-out;
+  opacity: 0;
+}
+
+#message {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #333;
+}
+
+#problem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: #DDD;
+}
+
+#problem #frowny {
+  font-size: 140px;
+  font-weight: bold;
+  color: #666;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="/trend.css">
+<link rel="icon" href="/favicon.png">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<title>npm.trace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#666666"/>
+</head>
+<body>
+<header>
+  <span><a href="/">npm.trace</a></span>
+  <form id="form"><input type="search" id="search" autofocus></form>
+</header>
+<div id="super">
+  <div id="main">
+    <div id="graph"></div>
+  </div>
+  <div id="spinframe">
+    <div class="spinner">
+      <div class="double-bounce1"></div>
+      <div class="double-bounce2"></div>
+    </div>
+    <div id="message"></div>
+  </div>
+  <div id="problem">
+    <div id="frowny">:(</div>
+    <div id="error">There was a problem tracing this package. Please make sure the npm module exists, and try again.</div>
+  </div>
+</div>
+<script src="/trend.js"></script>
+</body>
+</html>

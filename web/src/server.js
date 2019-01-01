@@ -24,6 +24,10 @@ app.get('/packages/*', async (req, res) => {
   res.sendFile(path.join(__dirname, 'public/trace.html'));
 });
 
+app.get('/trend/*', async (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/trend.html'));
+});
+
 app.get('/api/trend/*', async (req, res) => {
   try {
     const path = req.path.slice(4);
