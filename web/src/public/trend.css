@@ -125,6 +125,11 @@ form {
   height: 100%;
 }
 
+#titlebar {
+  height: 25px;
+  background-color: #ECECEC;
+}
+
 .fadeout {
   transition: opacity 1s ease-out;
   opacity: 0;

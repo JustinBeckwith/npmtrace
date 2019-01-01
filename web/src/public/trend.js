@@ -7,17 +7,27 @@ const problem = document.getElementById('problem');
 const graph = document.getElementById('graph')
 const messages = [
   'this could take a little while.',
-  'npm.trace needs to install the module, and profile it',
+  'npm.trace needs to install every version of this module available',
+  'then, we need to go profile it',
   'for some modules, this can take a little time',
   'after that, we can read the result from a cache',
   'you should checkout out npm.im/require-so-slow to learn more',
   'we made this at google to make it easier to profile cold start',
   'you may be surprised at long some modules take to load',
-  'developers hate this one weird trick that makes start time better',
-  'if it has taken this long, something probably went wrong',
-  'I\'m sort of running out of things to say',
-  'can you make sure the npm module actually exists?'
+  'it\s especially nice for seeing your progress over time',
+  'sometimes, you may get an outlier',
+  'so it goes with profiling in the cloud :shrugs:',
+  'well, I\'ve run out of things to say',
+  'this is starting to get a little bit awkward',
+  'just wait here for a few minutes',
+  'I\'m like 90% sure this will return data eventually',
+  'and if it doesn\'t, you can always refresh',
+  'really this is it',
+  'data coming fresh and hot, like really soon'
 ];
+const packageName = window.location.pathname.split('/').filter(x => !!x).slice(1).join('/');
+search.placeholder = packageName;
+
 let messageIdx = 0;
 const messageInterval = setInterval(() => {
   if (messageIdx < messages.length) {
@@ -80,5 +90,4 @@ form.onsubmit = e => {
   }
   e.preventDefault();
 };
-const packageName = window.location.pathname.split('/').filter(x => !!x).slice(1, -1).join('/');
-search.placeholder = packageName;
+
