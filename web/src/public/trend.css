@@ -129,6 +129,9 @@ form {
 #titlebar {
   height: 25px;
   background-color: #ECECEC;
+  border-top: 1px solid #BBB;
+  border-bottom: 1px solid #BBB;
+  padding-left: 15px;
 }
 
 .fadeout {
@@ -159,4 +162,11 @@ form {
   color: #666;
   margin-top: 100px;
   margin-bottom: 50px;
+}
+
+footer {
+  background-color: #ECECEC;
+  padding: 10px;
+  border-top: 1px solid #BBB;
+  height: 30px;
 }

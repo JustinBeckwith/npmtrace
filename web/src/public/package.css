@@ -163,6 +163,7 @@ tr-ui-timeline-view {
 footer {
   background-color: #ECECEC;
   padding: 10px;
+  border-top: 1px solid #BBB;
 }
 
 footer a {
@@ -170,10 +171,18 @@ footer a {
   text-decoration: none;
 }
 
-button {
+#trend {
   color: #666;
+  font-size: 17px;
+  border: 1px solid #BBB;
+  border-radius: 5px;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #FFF;
+  padding: 2px 7px 2px 7px;
 }
 
 select {
   color: #666;
+  font-size: 17px;
+  font-family: 'Courier New', Courier, monospace;
 }

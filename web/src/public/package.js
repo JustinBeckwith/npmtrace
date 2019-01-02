@@ -84,9 +84,7 @@ function showError() {
 
 // footer
 const trend = document.getElementById('trend');
-trend.onclick = () => {
-  window.location.href = `/trend/${packageName}`;
-}
+trend.setAttribute('href', `/trend/${packageName}`);
 const select = document.getElementById("versions");
 select.onchange = evt => {
   const version = evt.target.value;
