@@ -5,6 +5,7 @@ html, body {
 }
 
 body {
+  display: flex;
   flex-direction: column;
 }
 
@@ -153,4 +154,26 @@ form {
   color: #666;
   margin-top: 100px;
   margin-bottom: 50px;
+}
+
+tr-ui-timeline-view {
+  height: 100%;
+}
+
+footer {
+  background-color: #ECECEC;
+  padding: 10px;
+}
+
+footer a {
+  color: #666;
+  text-decoration: none;
+}
+
+button {
+  color: #666;
+}
+
+select {
+  color: #666;
 }

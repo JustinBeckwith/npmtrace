@@ -71,5 +71,20 @@ app.get('/api/packages/*', async (req, res) => {
   }
 });
 
+app.get('/api/versions/*', async (req, res) => {
+  try {
+    const path = req.path.slice(4);
+    const {name} = util.extractFromRoute(path);
+    const versionsRes = await request({
+      url: `https://registry.npmjs.org/${name}`
+    });
+    const versions = Object.keys(versionsRes.data.versions);
+    res.json({versions});
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
+})
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Web service started on ${port}`));

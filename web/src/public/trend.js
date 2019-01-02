@@ -58,6 +58,7 @@ async function showTrace(data) {
   table.addColumn('number', 'duration');
   table.addRows(data.traces.map(r => [r.version, r.duration/1000]));
   const options = {
+    title: `require time by version: ${packageName}`,
     hAxis: {
       title: 'Version'
     },
