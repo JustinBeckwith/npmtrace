@@ -10,5 +10,8 @@
   "scripts": {
     "start": "cd web && npm start & cd worker && npm start & cd ..",
     "uncache": "firebase firestore:delete --project npmtrace /traces --recursive"
+  },
+  "devDependencies": {
+    "firebase-tools": "^6.3.0"
   }
 }

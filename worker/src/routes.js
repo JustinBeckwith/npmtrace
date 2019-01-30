@@ -25,6 +25,7 @@ exports.trace = async (req, res) => {
       const tracePath = path.join(os.tmpdir(), uuid.v4());
       try {
         await execa('npx', ['require-so-slow', '-o', tracePath, `${name}@${version}`], {stdio: 'inherit'});
+        await execa('npx', ['require-so-slow', '-o', tracePath, `${name}@${version}`], {stdio: 'inherit'});
         const contents = await readFile(tracePath, 'utf8');
         data = {
           data: JSON.parse(contents)
