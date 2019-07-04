@@ -12,7 +12,7 @@
   "author": "Justin Beckwith <justin.beckwith@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@google-cloud/firestore": "^0.19.0",
+    "@google-cloud/firestore": "^0.21.0",
     "execa": "^1.0.0",
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
