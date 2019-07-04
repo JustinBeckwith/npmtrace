@@ -12,6 +12,6 @@
     "uncache": "firebase firestore:delete --project npmtrace /traces --recursive"
   },
   "devDependencies": {
-    "firebase-tools": "^6.3.0"
+    "firebase-tools": "^7.0.2"
   }
 }

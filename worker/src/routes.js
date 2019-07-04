@@ -4,9 +4,9 @@ const execa = require('execa');
 const uuid = require('uuid');
 const fs = require('fs');
 const {promisify} = require('util');
-const Queue = require('p-queue');
+const {default: PQueue} = require('p-queue');
 const fetch = require('node-fetch');
-const Firestore = require('@google-cloud/firestore');
+const {Firestore} = require('@google-cloud/firestore');
 const semver = require('semver');
 
 const readFile = promisify(fs.readFile);
@@ -31,6 +31,7 @@ exports.trace = async (req, res) => {
           data: JSON.parse(contents)
         };
       } catch(e) {
+        console.error(e);
         data = {
           error: e.toString(),
           data: []
@@ -56,7 +57,7 @@ exports.traceAll = async (req, res) => {
     const package = await npmRes.json();
     const versions = Object.keys(package.versions);
     console.log(versions);
-    const q = new Queue({concurrency: 50});
+    const q = new PQueue({concurrency: 50});
     const proms = versions.map(version => {
       return q.add(async () => {
         try {

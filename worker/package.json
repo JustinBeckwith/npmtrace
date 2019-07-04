@@ -3,7 +3,7 @@
   "description": "Worker process for npm trace.",
   "main": "src/routes.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "GCLOUD_PROJECT=npmtrace node src/server.js",
     "test": "mocha"
   },
   "keywords": [
@@ -12,16 +12,24 @@
   "author": "Justin Beckwith <justin.beckwith@gmail.com>",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
     "@google-cloud/firestore": "^0.21.0",
     "execa": "^1.0.0",
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
     "p-queue": "^3.0.0",
+=======
+    "@google-cloud/firestore": "^2.2.3",
+    "execa": "^2.0.2",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
+    "p-queue": "^6.0.2",
+>>>>>>> fix: update all the things
     "require-so-slow": "^1.2.0",
-    "semver": "^5.6.0",
+    "semver": "^6.2.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^6.1.4"
   }
 }
