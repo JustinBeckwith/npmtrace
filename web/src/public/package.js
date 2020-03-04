@@ -1,3 +1,6 @@
+/* eslint-env browser */
+/* global Polymer, tr */
+
 const main = document.getElementById('main');
 const message = document.getElementById('message');
 const problem = document.getElementById('problem');
@@ -42,14 +45,14 @@ const messageInterval = setInterval(() => {
 // trace viewer
 const container = document.createElement('track-view-container');
 container.id = 'track_view_container';
-viewer = document.createElement('tr-ui-timeline-view');
+const viewer = document.createElement('tr-ui-timeline-view');
 viewer.track_view_container = container;
 Polymer.dom(viewer).appendChild(container);
 viewer.id = 'trace-viewer';
 viewer.globalMode = true;
 Polymer.dom(main).appendChild(viewer);
 const model = new tr.Model();
-async function getTrace() {
+async function getTrace () {
   const url = `/api${window.location.pathname}`;
   const res = await fetch(url);
   if (res.status !== 200) {
@@ -65,7 +68,7 @@ async function getTrace() {
 
 getTrace().catch(console.error);
 
-async function showTrace(data) {
+async function showTrace (data) {
   const i = new tr.importer.Import(model);
   await i.importTracesWithProgressDialog([data]);
   viewer.model = model;
@@ -76,7 +79,7 @@ async function showTrace(data) {
   }, 1000);
 }
 
-function showError() {
+function showError () {
   main.style.display = 'none';
   spinny.style.display = 'none';
   problem.style.display = 'block';
@@ -85,16 +88,16 @@ function showError() {
 // footer
 const trend = document.getElementById('trend');
 trend.setAttribute('href', `/trend/${packageName}`);
-const select = document.getElementById("versions");
+const select = document.getElementById('versions');
 select.onchange = evt => {
   const version = evt.target.value;
   window.location.href = `/packages/${packageName}/${version}`;
 };
-async function getVersions() {
+async function getVersions () {
   const res = await fetch(`/api/versions/${packageName}`);
-  const {versions} = await res.json();
+  const { versions } = await res.json();
   versions.forEach(version => {
-    const o = document.createElement("option");
+    const o = document.createElement('option');
     o.value = version;
     o.textContent = version;
     if (version === packageVersion) {

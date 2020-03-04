@@ -9,9 +9,12 @@
   "license": "MIT",
   "scripts": {
     "start": "cd web && npm start & cd worker && npm start & cd ..",
-    "uncache": "firebase firestore:delete --project npmtrace /traces --recursive"
+    "uncache": "firebase firestore:delete --project npmtrace /traces --recursive",
+    "fix": "semistandard --fix",
+    "lint": "semistandard"
   },
   "devDependencies": {
-    "firebase-tools": "^7.0.2"
+    "firebase-tools": "^7.0.2",
+    "semistandard": "^14.2.0"
   }
 }

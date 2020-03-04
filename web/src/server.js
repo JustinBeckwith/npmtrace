@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const yes = require('yes-https');
 const util = require('./helpers.js');
-const {request} = require('gaxios');
+const { request } = require('gaxios');
 
 const app = express();
 app.use(express.static('src/public'));
@@ -11,7 +11,7 @@ app.use(yes());
 const workerHost = process.env.WORKER_HOST || 'http://localhost:8081';
 
 app.get('/packages/*', async (req, res) => {
-  const {name, version} = util.extractFromRoute(req.path);
+  const { name, version } = util.extractFromRoute(req.path);
   if (!version) {
     try {
       const latest = await util.getLatest(name);
@@ -31,16 +31,16 @@ app.get('/trend/*', async (req, res) => {
 app.get('/api/trend/*', async (req, res) => {
   try {
     const path = req.path.slice(4);
-    const {name} = util.extractFromRoute(path);
+    const { name } = util.extractFromRoute(path);
     console.log(`Performing trending analysis for ${name}`);
     const traceRes = await request({
       url: `${workerHost}/traceAll`,
       method: 'POST',
-      data: {name}
+      data: { name }
     });
-    let {traces} = traceRes.data;
+    let { traces } = traceRes.data;
     traces = traces.map(versionResult => {
-      const dur = versionResult.tracePoints[versionResult.tracePoints.length-1].dur;
+      const dur = versionResult.tracePoints[versionResult.tracePoints.length - 1].dur;
       console.log(`Version: ${versionResult.version}, Duration: ${dur}`);
       return {
         version: versionResult.version,
@@ -57,11 +57,11 @@ app.get('/api/trend/*', async (req, res) => {
 app.get('/api/packages/*', async (req, res) => {
   try {
     const path = req.path.slice(4);
-    const {name, version} = util.extractFromRoute(path);
+    const { name, version } = util.extractFromRoute(path);
     const traceRes = await request({
       url: `${workerHost}/trace`,
       method: 'POST',
-      data: {name, version}
+      data: { name, version }
     });
     const data = traceRes.data;
     res.json(data);
@@ -74,17 +74,17 @@ app.get('/api/packages/*', async (req, res) => {
 app.get('/api/versions/*', async (req, res) => {
   try {
     const path = req.path.slice(4);
-    const {name} = util.extractFromRoute(path);
+    const { name } = util.extractFromRoute(path);
     const versionsRes = await request({
       url: `https://registry.npmjs.org/${name}`
     });
     const versions = Object.keys(versionsRes.data.versions);
-    res.json({versions});
+    res.json({ versions });
   } catch (e) {
     console.error(e);
     res.sendStatus(500).end();
   }
-})
+});
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Web service started on ${port}`));
