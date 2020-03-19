@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "gaxios": "^2.3.2",
+    "gaxios": "^3.0.0",
     "semver": "^7.1.3",
     "yes-https": "1.0.0"
   },
