@@ -23,7 +23,7 @@
     "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "mocha": "^7.1.0",
+    "mocha": "^8.0.0",
     "semistandard": "^14.2.0"
   }
 }
