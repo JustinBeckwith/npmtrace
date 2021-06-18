@@ -1,8 +1,8 @@
 steps:
-- name: 'node:10'
+- name: 'node:16'
   args: ['npm', 'install']
   dir: web
-- name: 'node:10'
+- name: 'node:16'
   args: ['npm', 'test']
   dir: web
 - name: 'gcr.io/cloud-builders/gcloud'
