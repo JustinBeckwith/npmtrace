@@ -14,7 +14,7 @@
     "lint": "semistandard"
   },
   "devDependencies": {
-    "firebase-tools": "^8.0.0",
+    "firebase-tools": "^9.0.0",
     "semistandard": "^16.0.0"
   }
 }
