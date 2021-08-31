@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "firebase-tools": "^8.0.0",
-    "semistandard": "^14.2.0"
+    "semistandard": "^16.0.0"
   }
 }
